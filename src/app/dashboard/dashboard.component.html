@@ -1,0 +1,144 @@
+<div class="app-shell">
+
+  <!-- ── Navbar ─────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span>⚖️</span>
+      <span>QuantityApp</span>
+    </div>
+    <div class="nav-user">
+      <img *ngIf="currentUser?.profilePicture"
+           [src]="currentUser!.profilePicture"
+           class="avatar" alt="avatar" />
+      <div *ngIf="!currentUser?.profilePicture" class="avatar-placeholder">
+        {{ currentUser?.firstName?.charAt(0)?.toUpperCase() }}
+      </div>
+      <span class="user-name">{{ currentUser?.firstName }}</span>
+      <button class="btn-logout" (click)="logout()">Sign out</button>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ───────────────────────────────── -->
+  <main class="main-content">
+
+    <div class="page-title">
+      <h2>Quantity Measurement</h2>
+      <p>Convert, add, subtract and compare measurements</p>
+    </div>
+
+    <div class="calculator-card">
+
+      <!-- Step 1: Measurement type -->
+      <div class="section-label">1. Choose measurement type</div>
+      <div class="type-tabs">
+        <button
+          *ngFor="let t of types"
+          class="type-tab"
+          [class.active]="selectedType === t"
+          (click)="selectType(t)"
+        >
+          <span>{{ typeIcons[t] }}</span>
+          <span>{{ t | titlecase }}</span>
+        </button>
+      </div>
+
+      <!-- Step 2: Operation -->
+      <div class="section-label">2. Choose operation</div>
+      <div class="op-tabs">
+        <button
+          *ngFor="let op of ops"
+          class="op-tab"
+          [class.active]="selectedOp === op.key"
+          (click)="selectOp(op.key)"
+        >
+          {{ op.icon }} {{ op.label }}
+        </button>
+      </div>
+
+      <!-- Step 3: Inputs -->
+      <div class="section-label">3. Enter values</div>
+
+      <!-- Convert form -->
+      <form *ngIf="selectedOp === 'convert'"
+            [formGroup]="convertForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="input-row">
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" formControlName="value" placeholder="e.g. 100" />
+          </div>
+          <div class="form-group">
+            <label>From</label>
+            <select formControlName="fromUnit">
+              <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+            </select>
+          </div>
+          <div class="arrow-icon">→</div>
+          <div class="form-group">
+            <label>To</label>
+            <select formControlName="toUnit">
+              <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-calculate" [disabled]="loading || convertForm.invalid">
+          <div class="spinner-small" *ngIf="loading"></div>
+          <span *ngIf="!loading">Calculate 🔄</span>
+          <span *ngIf="loading">Calculating...</span>
+        </button>
+      </form>
+
+      <!-- Dual-value form (add / subtract / compare) -->
+      <form *ngIf="selectedOp !== 'convert'"
+            [formGroup]="dualForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="dual-row">
+          <div class="value-pair">
+            <label>Value 1</label>
+            <input type="number" formControlName="value1" placeholder="e.g. 50" />
+            <select formControlName="unit1">
+              <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+            </select>
+          </div>
+
+          <div class="op-symbol">
+            <span *ngIf="selectedOp === 'add'">➕</span>
+            <span *ngIf="selectedOp === 'subtract'">➖</span>
+            <span *ngIf="selectedOp === 'compare'">⚡</span>
+          </div>
+
+          <div class="value-pair">
+            <label>Value 2</label>
+            <input type="number" formControlName="value2" placeholder="e.g. 30" />
+            <select formControlName="unit2">
+              <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-calculate" [disabled]="loading || dualForm.invalid">
+          <div class="spinner-small" *ngIf="loading"></div>
+          <span *ngIf="!loading">
+            Calculate
+            <span *ngIf="selectedOp==='add'">➕</span>
+            <span *ngIf="selectedOp==='subtract'">➖</span>
+            <span *ngIf="selectedOp==='compare'">⚡</span>
+          </span>
+          <span *ngIf="loading">Calculating...</span>
+        </button>
+      </form>
+
+      <!-- Result -->
+      <div class="result-box" *ngIf="result !== null">
+        <div class="result-label">Result</div>
+        <div class="result-value">
+          {{ result }}
+          <span class="result-unit" *ngIf="resultUnit"> {{ resultUnit }}</span>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div class="error-banner" *ngIf="errorMsg">
+        ⚠️ {{ errorMsg }}
+      </div>
+
+    </div>
+  </main>
+</div>

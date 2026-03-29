@@ -1,0 +1,108 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <div class="logo">
+        <span class="logo-icon">⚖️</span>
+        <span class="logo-text">QuantityApp</span>
+      </div>
+      <h1>Create account</h1>
+      <p class="subtitle">Join and start measuring</p>
+    </div>
+
+    <div class="error-banner" *ngIf="errorMsg">
+      <span>⚠️</span> {{ errorMsg }}
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- Name Row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input id="firstName" type="text" formControlName="firstName"
+                 placeholder="John"
+                 [class.invalid]="firstName.invalid && firstName.touched" />
+          <span class="field-error" *ngIf="firstName.invalid && firstName.touched">
+            <ng-container *ngIf="firstName.errors?.['required']">Required.</ng-container>
+            <ng-container *ngIf="firstName.errors?.['minlength']">Min 2 chars.</ng-container>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" type="text" formControlName="lastName"
+                 placeholder="Doe"
+                 [class.invalid]="lastName.invalid && lastName.touched" />
+          <span class="field-error" *ngIf="lastName.invalid && lastName.touched">
+            <ng-container *ngIf="lastName.errors?.['required']">Required.</ng-container>
+            <ng-container *ngIf="lastName.errors?.['minlength']">Min 2 chars.</ng-container>
+          </span>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉️</span>
+          <input id="email" type="email" formControlName="email"
+                 placeholder="you@example.com"
+                 [class.invalid]="email.invalid && email.touched" />
+        </div>
+        <span class="field-error" *ngIf="email.invalid && email.touched">
+          <ng-container *ngIf="email.errors?.['required']">Email is required.</ng-container>
+          <ng-container *ngIf="email.errors?.['email']">Enter a valid email.</ng-container>
+        </span>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input id="password" [type]="showPassword ? 'text' : 'password'"
+                 formControlName="password" placeholder="Min 6 characters"
+                 [class.invalid]="password.invalid && password.touched" />
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        <span class="field-error" *ngIf="password.invalid && password.touched">
+          <ng-container *ngIf="password.errors?.['required']">Password is required.</ng-container>
+          <ng-container *ngIf="password.errors?.['minlength']">At least 6 characters.</ng-container>
+        </span>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input id="confirmPassword" [type]="showConfirm ? 'text' : 'password'"
+                 formControlName="confirmPassword" placeholder="Repeat password"
+                 [class.invalid]="(confirmPassword.touched && form.errors?.['mismatch'])" />
+          <button type="button" class="toggle-password" (click)="showConfirm = !showConfirm">
+            {{ showConfirm ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        <span class="field-error"
+              *ngIf="confirmPassword.touched && form.errors?.['mismatch']">
+          Passwords do not match.
+        </span>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        <div class="spinner" *ngIf="loading"></div>
+        <span *ngIf="!loading">Create Account</span>
+        <span *ngIf="loading">Creating...</span>
+      </button>
+
+    </form>
+
+    <p class="auth-footer">
+      Already have an account? <a routerLink="/auth/login">Sign in</a>
+    </p>
+
+  </div>
+</div>
