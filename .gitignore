@@ -1,7 +1,0 @@
-.angular/
-node_modules/
-dist/
-coverage/
-package-lock.json
-tsconfig.json
-tsconfig.app.json
