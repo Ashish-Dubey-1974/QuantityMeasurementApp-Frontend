@@ -8,19 +8,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // ── Database (PostgreSQL for Render) ──────────────────
-var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// Render postgres:// URL format ko Npgsql format mein convert karo
-if (connStr != null && connStr.StartsWith("postgres"))
-{
-    var uri = new Uri(connStr);
-    var userInfo = uri.UserInfo.Split(':');
-    connStr = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
-}
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connStr));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ── Services ──────────────────────────────────────────
 builder.Services.AddScoped<IQuantityMeasurementService, QuantityMeasurementService>();
