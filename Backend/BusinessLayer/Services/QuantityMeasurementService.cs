@@ -194,7 +194,7 @@ namespace BusinessLayer.Services
                 Unit2 = secondQuantity.Unit.ToString(),
                 ResultValue = areEqual ? 1 : 0,
                 ResultUnit = "Boolean",
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
@@ -220,7 +220,7 @@ namespace BusinessLayer.Services
                 Unit2 = null,
                 ResultValue = result.Value,
                 ResultUnit = result.Unit.ToString(),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
@@ -243,7 +243,7 @@ namespace BusinessLayer.Services
                 Unit2 = rightOperand.Unit.ToString(),
                 ResultValue = result.Value,
                 ResultUnit = result.Unit.ToString(),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
@@ -266,7 +266,7 @@ namespace BusinessLayer.Services
                 Unit2 = secondValue.Unit.ToString(),
                 ResultValue = result.Value,
                 ResultUnit = result.Unit.ToString(),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
@@ -289,7 +289,7 @@ namespace BusinessLayer.Services
                 Unit2 = divisor.Unit.ToString(),
                 ResultValue = result,
                 ResultUnit = "ratio",
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
@@ -320,7 +320,7 @@ namespace BusinessLayer.Services
                 Unit2 = null,
                 ResultValue = converted.Value,
                 ResultUnit = converted.Unit.ToString(),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
@@ -344,7 +344,7 @@ namespace BusinessLayer.Services
                 Unit2 = rightOperand.Unit.ToString(),
                 ResultValue = result.Value,
                 ResultUnit = result.Unit.ToString(),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.QuantityMeasurement.Add(entity);
