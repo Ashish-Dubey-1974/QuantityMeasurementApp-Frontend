@@ -1,0 +1,37 @@
+# @WebApiLayer_HostAddress = http://localhost:5174/swagger/
+
+# GET {{WebApiLayer_HostAddress}}
+# Accept: application/json
+
+###
+POST http://localhost:5000/api/quantitymeasurement/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhc2hpc2guZ2xhX2NzLmFpbWwyMkBnbGEuYWMuaW4iLCJGaXJzdE5hbWUiOiJBc2hpc2giLCJBdXRoUHJvdmlkZXIiOiJsb2NhbCIsImV4cCI6MTc3NDc4NDkzNCwiaXNzIjoiUXVhbnRpdHlNZWFzdXJlbWVudEFwcCIsImF1ZCI6IlF1YW50aXR5TWVhc3VyZW1lbnRBcHAifQ.CO6zfdc138fi8PDPGavRMPdRqhB-r117lMsoOWB4t0A
+
+{
+  "QuantityType": "Length",
+  "Value1": 10,
+  "Value2": 10,
+  "Unit1": "Inches",
+  "Unit2": "Feet"
+}
+
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@example.com",
+  "password": "Test@123"
+}
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "ashish.gla_cs.aiml22@gla.ac.in",
+  "password": "Ashish"
+}

@@ -11,7 +11,7 @@ type Operation = 'convert' | 'add' | 'subtract' | 'compare';
 
 // ✅ ONLY units that exist in backend enums
 const UNITS: Record<MeasurementType, string[]> = {
-  length:      ['Inches', 'Feet', 'Yards', 'Centimeters'],
+  length:      ['Inches', 'Feet', 'Yards', 'Centimeters','MiliMeters'],
   weight:      ['Grams', 'Kilograms', 'Pound'],
   temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
   volume:      ['Litre', 'MilliLiter', 'Gallon']

@@ -1,7 +1,15 @@
-.angular/
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+
+# Angular
 node_modules/
 dist/
-coverage/
-package-lock.json
-tsconfig.json
-tsconfig.app.json
+.angular/
+
+# Secrets (kabhi push mat karna)
+appsettings.Development.json
+*.pfx
