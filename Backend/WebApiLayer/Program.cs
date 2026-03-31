@@ -40,7 +40,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:4200",
-                "https://YOUR-APP.netlify.app"
+                "https://quantityapp.netlify.app/"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();
