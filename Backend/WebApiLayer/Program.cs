@@ -8,15 +8,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Database (PostgreSQL for Render) ──────────────────
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ── Services ──────────────────────────────────────────
 builder.Services.AddScoped<IQuantityMeasurementService, QuantityMeasurementService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-// ── JWT Authentication ────────────────────────────────
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -35,17 +32,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi();   // ✅ .NET 10 built-in
 
-// ── CORS ──────────────────────────────────────────────
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
                 "http://localhost:4200",
-                "https://YOUR-APP.netlify.app"   // <-- replace with your Netlify URL after deploy
+                "https://YOUR-APP.netlify.app"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();
@@ -54,18 +49,15 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ── Auto-run Migrations on startup ───────────────────
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.MapOpenApi();   // ✅ replaces UseSwagger + UseSwaggerUI
 
 app.UseCors("AllowFrontend");
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
